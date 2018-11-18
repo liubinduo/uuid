@@ -1,0 +1,40 @@
+{
+  "groups": [
+    {
+      "sourceType": "com.v1ok.uuid.property.TypeProperties",
+      "name": "UUID 配置信息",
+      "type": "com.v1ok.uuid.property.TypeProperties"
+    },
+    {
+      "sourceType": "com.v1ok.uuid.property.SnowflakeProperties",
+      "name": "UUID 配置信息",
+      "type": "com.v1ok.uuid.property.SnowflakeProperties"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.v1ok.uuid.property.TypeProperties",
+      "name": "uuid.type",
+      "type": "com.v1ok.uuid.property.GenerateType",
+      "description":"Configuring uuid type"
+    },
+    {
+      "sourceType": "com.v1ok.uuid.property.SnowflakeProperties",
+      "name": "uuid.snowflake.workerId",
+      "type": "java.lang.Long",
+      "description":"Configuring machine identification"
+    },
+    {
+      "sourceType": "com.v1ok.uuid.property.SnowflakeProperties",
+      "name": "uuid.snowflake.dataCenterId",
+      "type": "java.lang.Long",
+      "description":"Configuring data center identification"
+    },
+    {
+      "sourceType": "com.v1ok.uuid.property.SnowflakeProperties",
+      "name": "uuid.snowflake.epoch",
+      "type": "java.lang.Long",
+      "description":"Configuring the start time of UUID generation"
+    }
+  ]
+}
