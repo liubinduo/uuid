@@ -22,19 +22,15 @@ public class AutoConifg {
 
   @Bean
   public IDGenerate generate() {
-    IDGenerate generate = null;
-    switch (typeProperties.getType()) {
-      case UUID:
-        generate = new com.v1ok.uuid.java.GenerateImpl();
-        break;
-      case SNOWFLAKE:
-        long workerId = snowflakeProperties.getWorkerId();
-        long dataCenterId = snowflakeProperties.getDataCenterId();
-        long epoch = snowflakeProperties.getEpoch();
-        generate = new com.v1ok.uuid.snowflake.GenerateImpl(workerId, dataCenterId, epoch);
-        break;
-    }
 
-    return generate;
+    long workerId = snowflakeProperties.getWorkerId();
+    long dataCenterId = snowflakeProperties.getDataCenterId();
+    long epoch = snowflakeProperties.getEpoch();
+
+    return IDGenerateBuilder.builder(typeProperties.getType())
+        .setWorkerId(workerId)
+        .setDataCenterId(dataCenterId)
+        .setEpoch(epoch)
+        .build();
   }
 }
