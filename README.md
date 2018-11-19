@@ -49,8 +49,9 @@ public class Demo {
 
 # Config
 ```properties
-uuid.snowflake.workerId     //机器ID
-uuid.snowflake.dataCenterId //数据中心ID
+uuid.type                   // UUID类型   取值范围：snowflake, uuid
+uuid.snowflake.workerId     //机器ID       取值范围：(0~31)
+uuid.snowflake.dataCenterId //数据中心ID   取值范围：(0~31)
 uuid.snowflake.epoch        //纪元时间戳 
-uuid.snowflake.base         //toString 时的进制数，取值范围2～36
+uuid.snowflake.base         //toString 时的进制数，取值范围：2～36
 ```
