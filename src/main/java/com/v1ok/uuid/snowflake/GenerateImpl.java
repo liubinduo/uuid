@@ -3,6 +3,7 @@ package com.v1ok.uuid.snowflake;
 import static java.lang.Thread.sleep;
 
 import com.v1ok.uuid.IDGenerate;
+import com.v1ok.uuid.util.NumericConvertUtil;
 
 /**
  * Twitter_Snowflake<br> SnowFlake的结构如下(每部分用-分开):<br> 高位 |  41位时间截(毫秒级)                            |
@@ -21,6 +22,8 @@ import com.v1ok.uuid.IDGenerate;
 public class GenerateImpl implements IDGenerate {
 
   public static final long TIME_WHEN_EPOCH = 1542444628916L;
+
+  public static final int TO_STRING_BASE = 16;
 
   /**
    * 序列在id中占的位数
@@ -83,16 +86,22 @@ public class GenerateImpl implements IDGenerate {
    */
   private long lastTimestamp = -1L;
 
+  /**
+   * 用多少进制表示
+   */
+  private int base;
+
   public GenerateImpl(long workerId, long dataCenterId) {
-    this(workerId, dataCenterId, TIME_WHEN_EPOCH);
+    this(workerId, dataCenterId, TIME_WHEN_EPOCH, TO_STRING_BASE);
   }
 
-  public GenerateImpl(long workerId, long dataCenterId, long twepoch) {
+  public GenerateImpl(long workerId, long dataCenterId, long twepoch, int base) {
     this.workerIdBits = 5L;
     this.dataCenterIdBits = 5L;
     this.twepoch = twepoch;
     this.workerId = workerId;
     this.dataCenterId = dataCenterId;
+    this.base = base;
     this.workerIdShift = this.sequenceBits;
     this.dataCenterIdShift = this.sequenceBits + this.workerIdBits;
     this.timestampLeftShift = this.sequenceBits + this.dataCenterIdBits;
@@ -131,7 +140,7 @@ public class GenerateImpl implements IDGenerate {
   }
 
   public String nextIdToString() throws InterruptedException {
-    return Long.toHexString(this.nextIdToLong());
+    return NumericConvertUtil.toOtherBaseString(this.nextIdToLong(), this.base);
   }
 
   public synchronized Long nextIdToLong() throws InterruptedException {
@@ -205,7 +214,7 @@ public class GenerateImpl implements IDGenerate {
     }
 
     String s = String.valueOf(Long.MAX_VALUE);
-    System.out.println(s + "   " + s.length()  +" "+ Long.toHexString(Long.MAX_VALUE).length());
+    System.out.println(s + "   " + s.length() + " " + Long.toHexString(Long.MAX_VALUE).length());
   }
 
 }

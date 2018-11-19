@@ -17,6 +17,7 @@ public class NumericConvertUtil {
    * @return
    */
   public static String toOtherBaseString(long n, int base) {
+    validate(base);
     long num = 0;
     if (n < 0) {
       num = ((long) 2 * 0x7fffffff) + n + 2;
@@ -41,6 +42,7 @@ public class NumericConvertUtil {
    * @return
    */
   public static long toDecimalism(String str, int base) {
+    validate(base);
     char[] buf = new char[str.length()];
     str.getChars(0, str.length(), buf, 0);
     long num = 0;
@@ -53,6 +55,12 @@ public class NumericConvertUtil {
       }
     }
     return num;
+  }
+
+  private static void validate(int base){
+    if(base < 2 || base > 36){
+      throw new IllegalArgumentException("The base must be between 2 and 36.");
+    }
   }
 
   public static void main(String[] args) {

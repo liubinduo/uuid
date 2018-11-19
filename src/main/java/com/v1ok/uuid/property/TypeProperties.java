@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "uuid")
 public class TypeProperties {
 
-  private GenerateType type = GenerateType.SNOWFLAKE;
+  private GenerateType type;
 
   public GenerateType getType() {
     return type;

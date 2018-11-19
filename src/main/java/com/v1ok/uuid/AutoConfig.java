@@ -3,7 +3,7 @@ package com.v1ok.uuid;
 import com.v1ok.uuid.property.SnowflakeProperties;
 import com.v1ok.uuid.property.TypeProperties;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -20,19 +20,22 @@ public class AutoConfig {
   @Autowired
   TypeProperties typeProperties;
 
-
   @Bean
-  @ConditionalOnProperty(prefix = "uuid", name = "type")
-  public IDGenerate generate() {
+  @ConditionalOnExpression("'${uuid.type:null}' != 'null'")
+  public IDGenerate snowflake() {
 
     long workerId = snowflakeProperties.getWorkerId();
     long dataCenterId = snowflakeProperties.getDataCenterId();
     long epoch = snowflakeProperties.getEpoch();
+    int base = snowflakeProperties.getBase();
 
     return IDGenerateBuilder.builder(typeProperties.getType())
         .setWorkerId(workerId)
         .setDataCenterId(dataCenterId)
         .setEpoch(epoch)
+        .setBase(base)
         .build();
   }
+
+
 }
