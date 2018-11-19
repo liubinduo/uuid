@@ -5,12 +5,17 @@ uuid and SNOWFLAKE
 # jar用法
 
 ```java
-IDGenerate idg = IDGenerateBuilder.builder(GenerateType.SNOWFLAKE).build();
+IDGenerate idg = IDGenerateBuilder.builder(GenerateType.SNOWFLAKE)
+                                  .setWorkerId(workerId)
+                                  .setDataCenterId(dataCenterId)
+                                  .setEpoch(epoch)
+                                  .setBase(base)
+                                  .build();
 
 String id = idg.nextIdToString()  or long id = idg.nextIdtoLong();
 ```
 
-# String Boot 用法
+# Spring Boot 用法
 在 pom.xml 引用
 ```xml
 <dependency>
@@ -40,4 +45,12 @@ public class Demo {
     return null;
   }
 }
+```
+
+# Config
+```properties
+uuid.snowflake.workerId     //机器ID
+uuid.snowflake.dataCenterId //数据中心ID
+uuid.snowflake.epoch        //纪元时间戳 
+uuid.snowflake.base         //toString 时的进制数，取值范围2～36
 ```
