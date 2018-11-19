@@ -1,6 +1,7 @@
 # uuid
 这是一个生成UUID的工具,实现了两种标准的UUID。
 uuid and SNOWFLAKE
+
 #jar用法
 IDGenerate idg = IDGenerateBuilder.builder(GenerateType.SNOWFLAKE).build();
 
