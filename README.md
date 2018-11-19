@@ -3,9 +3,12 @@
 uuid and SNOWFLAKE
 
 # jar用法
+
+```java
 IDGenerate idg = IDGenerateBuilder.builder(GenerateType.SNOWFLAKE).build();
 
 String id = idg.nextIdToString()  or long id = idg.nextIdtoLong();
+```
 
 # String Boot 用法
 在 pom.xml 引用
