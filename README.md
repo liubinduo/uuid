@@ -2,12 +2,12 @@
 这是一个生成UUID的工具,实现了两种标准的UUID。
 uuid and SNOWFLAKE
 
-#jar用法
+# jar用法
 IDGenerate idg = IDGenerateBuilder.builder(GenerateType.SNOWFLAKE).build();
 
 String id = idg.nextIdToString()  or long id = idg.nextIdtoLong();
 
-#String Boot 用法
+# String Boot 用法
 在 pom.xml 引用
 ```xml
 <dependency>
