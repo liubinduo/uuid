@@ -46,7 +46,6 @@ public class Demo {
   }
 }
 ```
-
 # Config
 ```properties
 uuid.type                   // UUID类型   取值范围：snowflake, uuid
