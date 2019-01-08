@@ -14,7 +14,7 @@ public class NumericConvertUtil {
    *
    * @param n 十进制的数字
    * @param base 指定的进制
-   * @return
+   * @return 返回指定进制字符串
    */
   public static String toOtherBaseString(long n, int base) {
     validate(base);
@@ -39,7 +39,7 @@ public class NumericConvertUtil {
    *
    * @param str 其它进制的数字（字符串形式）
    * @param base 指定的进制
-   * @return
+   * @return 十进制数
    */
   public static long toDecimalism(String str, int base) {
     validate(base);
