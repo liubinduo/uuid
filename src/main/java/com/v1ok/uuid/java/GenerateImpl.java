@@ -2,7 +2,9 @@ package com.v1ok.uuid.java;
 
 import com.v1ok.uuid.IDGenerate;
 import java.util.UUID;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class GenerateImpl implements IDGenerate {
 
   @Override

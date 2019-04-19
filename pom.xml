@@ -6,7 +6,7 @@
 
   <groupId>com.v1ok</groupId>
   <artifactId>uuid</artifactId>
-  <version>0.1.1</version>
+  <version>0.1.2</version>
   <name>UUID</name>
   <description>Generate UUID</description>
   <url>http://www.v1ok.com</url>
@@ -26,6 +26,18 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-autoconfigure</artifactId>
       <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>LATEST</version>
+      <optional>true</optional>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.25</version>
     </dependency>
   </dependencies>
 
