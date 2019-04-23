@@ -3,8 +3,13 @@ package com.v1ok.uuid.snowflake;
 import static java.lang.Thread.sleep;
 
 import com.v1ok.uuid.IDGenerate;
+import com.v1ok.uuid.snowflake.support.IDParseDate;
 import com.v1ok.uuid.util.NumericConvertUtil;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
@@ -51,26 +56,26 @@ public class GenerateImpl implements IDGenerate {
   /**
    * 每一部分的最大值
    */
-  private final static long MAX_DATA_CENTER_ID_NUM = -1L ^ (-1L << DATA_CENTER_ID_BITS);
-  private final static long MAX_WORKER_ID_NUM = -1L ^ (-1L << WORKER_ID_BITS);
-  private final static long MAX_SEQUENCE_NUM = -1L ^ (-1L << SEQUENCE_BITS);
+  private final static long MAX_DATA_CENTER_ID_NUM = ~(-1L << DATA_CENTER_ID_BITS);
+  private final static long MAX_WORKER_ID_NUM = ~(-1L << WORKER_ID_BITS);
+  private final static long MAX_SEQUENCE_NUM = ~(-1L << SEQUENCE_BITS);
 
 
   /**
    * 机器ID向左移12位
    */
-  private final static long WORKER_ID_LEFT_SHIFT = SEQUENCE_BITS;
+  public final static long WORKER_ID_LEFT_SHIFT = SEQUENCE_BITS;
 
   /**
    * 数据标识id向左移17位(12+5)
    */
-  private final static long DATA_CENTER_ID_LEFT_SHIFT = SEQUENCE_BITS + WORKER_ID_BITS;
+  public final static long DATA_CENTER_ID_LEFT_SHIFT = SEQUENCE_BITS + WORKER_ID_BITS;
   ;
 
   /**
    * 时间截向左移22位(5+5+12)
    */
-  private final static long TIMESTAMP_LEFT_SHIFT =  SEQUENCE_BITS + WORKER_ID_BITS + DATA_CENTER_ID_BITS;
+  public final static long TIMESTAMP_LEFT_SHIFT =  SEQUENCE_BITS + WORKER_ID_BITS + DATA_CENTER_ID_BITS;
   ;
 
   /**
@@ -228,10 +233,18 @@ public class GenerateImpl implements IDGenerate {
   static CountDownLatch countDownLatch = new CountDownLatch(THREAD_COUNT);
   static Set<Long> TEXT_IDS = Collections.synchronizedSet(new HashSet<>());
 
-  public static void main(String[] args) throws InterruptedException {
+  public static void main(String[] args) throws InterruptedException, ParseException {
+
     System.out.println(System.currentTimeMillis());
     Long x = idGenerate.nextIdToLong();
+
+    Date parse = new IDParseDate().parse(x);
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    String startTime = sdf.format(parse);
+    System.out.println(startTime);
+
     System.out.println(x);
+    System.out.println(idGenerate.nextIdToString());
     System.out.println(x.toString().length());
     for (int i = 0; i < THREAD_COUNT; i++) {
 
