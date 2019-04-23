@@ -5,9 +5,15 @@ import java.util.Date;
 
 public class IDParseDate {
 
+  private GenerateImpl generate;
+
+  public IDParseDate(GenerateImpl generate) {
+    this.generate = generate;
+  }
+
   public Date parse(long id) {
     long timestamp = id >> GenerateImpl.TIMESTAMP_LEFT_SHIFT;
-    return new Date(timestamp + GenerateImpl.TIME_WHEN_EPOCH);
+    return new Date(timestamp + generate.getEpoch());
   }
 
 }

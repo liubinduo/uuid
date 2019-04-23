@@ -5,7 +5,6 @@ import static java.lang.Thread.sleep;
 import com.v1ok.uuid.IDGenerate;
 import com.v1ok.uuid.snowflake.support.IDParseDate;
 import com.v1ok.uuid.util.NumericConvertUtil;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -75,7 +74,8 @@ public class GenerateImpl implements IDGenerate {
   /**
    * 时间截向左移22位(5+5+12)
    */
-  public final static long TIMESTAMP_LEFT_SHIFT =  SEQUENCE_BITS + WORKER_ID_BITS + DATA_CENTER_ID_BITS;
+  public final static long TIMESTAMP_LEFT_SHIFT =
+      SEQUENCE_BITS + WORKER_ID_BITS + DATA_CENTER_ID_BITS;
   ;
 
   /**
@@ -91,7 +91,7 @@ public class GenerateImpl implements IDGenerate {
   /**
    * 开始时间截 (2018-11-17)
    */
-  private long t_w_epoch;
+  private long epoch;
 
 
   /**
@@ -113,9 +113,9 @@ public class GenerateImpl implements IDGenerate {
     this(workerId, dataCenterId, TIME_WHEN_EPOCH, TO_STRING_BASE);
   }
 
-  public GenerateImpl(long workerId, long dataCenterId, long t_w_epoch, int base) {
+  public GenerateImpl(long workerId, long dataCenterId, long epoch, int base) {
 
-    this.t_w_epoch = t_w_epoch;
+    this.epoch = epoch;
     this.workerId = workerId;
     this.dataCenterId = dataCenterId;
     this.base = base;
@@ -165,7 +165,7 @@ public class GenerateImpl implements IDGenerate {
         }
         lastTimestamp.set(timestamp);
 
-        return ((timestamp - t_w_epoch) << TIMESTAMP_LEFT_SHIFT)
+        return ((timestamp - epoch) << TIMESTAMP_LEFT_SHIFT)
             | (dataCenterId << DATA_CENTER_ID_LEFT_SHIFT)
             | (workerId << WORKER_ID_LEFT_SHIFT)
             | sequenceValue;
@@ -175,7 +175,7 @@ public class GenerateImpl implements IDGenerate {
       lastTimestamp.set(timestamp);
 
       //移位并通过或运算拼到一起组成64位的ID
-      return ((timestamp - t_w_epoch) << TIMESTAMP_LEFT_SHIFT)
+      return ((timestamp - epoch) << TIMESTAMP_LEFT_SHIFT)
           | (dataCenterId << DATA_CENTER_ID_LEFT_SHIFT)
           | (workerId << WORKER_ID_LEFT_SHIFT)
           | sequence.get();
@@ -185,7 +185,39 @@ public class GenerateImpl implements IDGenerate {
 
   }
 
-//  private long getSequenceValue(long lastTimestamp) {
+  public long getEpoch() {
+    return epoch;
+  }
+
+  public void setEpoch(long epoch) {
+    this.epoch = epoch;
+  }
+
+  public long getWorkerId() {
+    return workerId;
+  }
+
+  public void setWorkerId(long workerId) {
+    this.workerId = workerId;
+  }
+
+  public long getDataCenterId() {
+    return dataCenterId;
+  }
+
+  public void setDataCenterId(long dataCenterId) {
+    this.dataCenterId = dataCenterId;
+  }
+
+  public int getBase() {
+    return base;
+  }
+
+  public void setBase(int base) {
+    this.base = base;
+  }
+
+  //  private long getSequenceValue(long lastTimestamp) {
 //    Long sequenceValue = SEQUENCE_CACHE.put(lastTimestamp, 0L);
 //    if (sequenceValue == null) {
 //      return 0L;
@@ -229,7 +261,7 @@ public class GenerateImpl implements IDGenerate {
    ============================*/
 
   static final int THREAD_COUNT = 6;
-  static IDGenerate idGenerate = new GenerateImpl(1, 1);
+  static GenerateImpl idGenerate = new GenerateImpl(1, 1);
   static CountDownLatch countDownLatch = new CountDownLatch(THREAD_COUNT);
   static Set<Long> TEXT_IDS = Collections.synchronizedSet(new HashSet<>());
 
@@ -238,7 +270,7 @@ public class GenerateImpl implements IDGenerate {
     System.out.println(System.currentTimeMillis());
     Long x = idGenerate.nextIdToLong();
 
-    Date parse = new IDParseDate().parse(x);
+    Date parse = new IDParseDate(idGenerate).parse(x);
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     String startTime = sdf.format(parse);
     System.out.println(startTime);
@@ -250,16 +282,14 @@ public class GenerateImpl implements IDGenerate {
 
       Thread thread = new Thread(() -> {
         for (int j = 0; j < 1000; j++) {
-          try {
-            Long id = idGenerate.nextIdToLong();
-            if (TEXT_IDS.contains(id)) {
-              String threadName = Thread.currentThread().getName();
-              System.out.println(String.format("has same id %d [%s]", id, threadName));
-            }
-            TEXT_IDS.add(id);
-          } catch (InterruptedException e) {
-            log.error("", e);
+
+          Long id = idGenerate.nextIdToLong();
+          if (TEXT_IDS.contains(id)) {
+            String threadName = Thread.currentThread().getName();
+            System.out.println(String.format("has same id %d [%s]", id, threadName));
           }
+          TEXT_IDS.add(id);
+
         }
         countDownLatch.countDown();
       });
