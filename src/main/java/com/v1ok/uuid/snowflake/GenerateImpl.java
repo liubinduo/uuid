@@ -265,7 +265,7 @@ public class GenerateImpl implements IDGenerate {
   static CountDownLatch countDownLatch = new CountDownLatch(THREAD_COUNT);
   static Set<Long> TEXT_IDS = Collections.synchronizedSet(new HashSet<>());
 
-  public static void main(String[] args) throws InterruptedException, ParseException {
+  public static void main(String[] args) throws InterruptedException {
 
     System.out.println(System.currentTimeMillis());
     Long x = idGenerate.nextIdToLong();
@@ -278,6 +278,7 @@ public class GenerateImpl implements IDGenerate {
     System.out.println(x);
     System.out.println(idGenerate.nextIdToString());
     System.out.println(x.toString().length());
+
     for (int i = 0; i < THREAD_COUNT; i++) {
 
       Thread thread = new Thread(() -> {
