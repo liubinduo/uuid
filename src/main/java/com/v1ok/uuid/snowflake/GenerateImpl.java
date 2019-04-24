@@ -5,7 +5,6 @@ import static java.lang.Thread.sleep;
 import com.v1ok.uuid.IDGenerate;
 import com.v1ok.uuid.snowflake.support.IDParseDate;
 import com.v1ok.uuid.util.NumericConvertUtil;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;

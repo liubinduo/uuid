@@ -8,12 +8,12 @@ import lombok.extern.slf4j.Slf4j;
 public class GenerateImpl implements IDGenerate {
 
   @Override
-  public String nextIdToString() throws InterruptedException {
+  public String nextIdToString() {
     return UUID.randomUUID().toString();
   }
 
   @Override
-  public Long nextIdToLong() throws InterruptedException {
+  public Long nextIdToLong() {
     throw new UnsupportedOperationException("This method is unsupported");
   }
 }

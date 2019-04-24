@@ -2,8 +2,8 @@ package com.v1ok.uuid;
 
 public interface IDGenerate {
 
-  String nextIdToString() throws InterruptedException;
+  String nextIdToString() ;
 
-  Long nextIdToLong() throws InterruptedException;
+  Long nextIdToLong() ;
 
 }
