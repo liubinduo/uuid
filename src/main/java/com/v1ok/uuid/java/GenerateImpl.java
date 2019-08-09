@@ -16,4 +16,9 @@ public class GenerateImpl implements IDGenerate {
   public Long nextIdToLong() {
     throw new UnsupportedOperationException("This method is unsupported");
   }
+
+  @Override
+  public Object nextId() {
+    return this.nextIdToString();
+  }
 }

@@ -3,6 +3,7 @@ package com.v1ok.uuid.snowflake;
 import static java.lang.Thread.sleep;
 
 import com.v1ok.uuid.IDGenerate;
+import com.v1ok.uuid.property.UUIDType;
 import com.v1ok.uuid.snowflake.support.IDParseDate;
 import com.v1ok.uuid.util.NumericConvertUtil;
 import java.text.SimpleDateFormat;
@@ -107,6 +108,8 @@ public class GenerateImpl implements IDGenerate {
    */
   private int base;
 
+  private UUIDType uuidType;
+
 
   public GenerateImpl(long workerId, long dataCenterId) {
     this(workerId, dataCenterId, TIME_WHEN_EPOCH, TO_STRING_BASE);
@@ -132,6 +135,16 @@ public class GenerateImpl implements IDGenerate {
               MAX_DATA_CENTER_ID_NUM));
     }
 
+  }
+
+  @Override
+  public Object nextId() {
+
+    if (uuidType == UUIDType.TO_STRING) {
+      return nextIdToString();
+    }
+
+    return nextIdToLong();
   }
 
   public String nextIdToString() {
@@ -214,6 +227,14 @@ public class GenerateImpl implements IDGenerate {
 
   public void setBase(int base) {
     this.base = base;
+  }
+
+  public UUIDType getUuidType() {
+    return uuidType;
+  }
+
+  public void setUuidType(UUIDType uuidType) {
+    this.uuidType = uuidType;
   }
 
   //  private long getSequenceValue(long lastTimestamp) {

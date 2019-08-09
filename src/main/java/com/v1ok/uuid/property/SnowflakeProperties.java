@@ -12,6 +12,8 @@ public class SnowflakeProperties {
   private long dataCenterId = 1;
   private long epoch = TIME_WHEN_EPOCH;
   private int base = TO_STRING_BASE;
+  private UUIDType uuidType = UUIDType.TO_STRING;
+
 
   public long getWorkerId() {
     return workerId;
@@ -43,5 +45,13 @@ public class SnowflakeProperties {
 
   public void setBase(int base) {
     this.base = base;
+  }
+
+  public UUIDType getUuidType() {
+    return uuidType;
+  }
+
+  public void setUuidType(UUIDType uuidType) {
+    this.uuidType = uuidType;
   }
 }

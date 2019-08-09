@@ -41,6 +41,12 @@
       "name": "uuid.snowflake.base",
       "type": "java.lang.Integer",
       "description": "It can display decimal, octal, hex and thirty-two binary format for the nextToString method "
+    },
+    {
+      "sourceType": "com.v1ok.uuid.property.SnowflakeProperties",
+      "name": "uuid.snowflake.uuidType",
+      "type": "com.v1ok.uuid.property.UUIDType",
+      "description": "uuid type is string or long "
     }
   ]
 }

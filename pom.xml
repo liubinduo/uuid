@@ -6,7 +6,7 @@
 
   <groupId>com.v1ok</groupId>
   <artifactId>uuid</artifactId>
-  <version>0.1.5</version>
+  <version>0.1.6</version>
   <name>UUID</name>
   <description>Generate UUID</description>
   <url>http://www.v1ok.com</url>
